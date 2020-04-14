@@ -25,13 +25,13 @@ class Teamtable extends Component {
     
     static getDerivedStateFromProps(nextProps){
       let teamdata = []
-      let team = nextProps.data.forEach((teams) => {
-                   return {...teams,teamName: teams.team,}     
-               })    
-               
-               teamdata.push(...team)  
+      nextProps.data.forEach((teams) => {
+               let team = teams.pocList.map((poc)=>{
+                   return {...poc,teamName: teams.team}   
+                 })
+                 teamdata.push(...team)  
+               })      
       return {data:teamdata}
-      
     }
 
 // onRowAdd = async(newData) =>{
