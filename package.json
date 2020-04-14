@@ -1,0 +1,21 @@
+{
+  "name": "react-bby-proj",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.9.9",
+    "axios": "^0.19.2",
+    "bootstrap": "^4.4.1",
+    "material-table": "^1.57.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "1.1.5",
+    "react-select": "^3.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
