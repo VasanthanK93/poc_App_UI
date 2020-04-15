@@ -51,7 +51,7 @@ class Teamtable extends Component {
 
 // }
     addData = (data)=>{  
-        let formData = {...data,team:this.props.value}
+        let formData = {...data,team:this.props.value,"deleteStatus" : false}
        let url = "https://pocnodebby.herokuapp.com/poc/v1/addPoc/"+this.props.value
       return axios.post(url,formData)    
 }
