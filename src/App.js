@@ -42,7 +42,6 @@ class App extends Component {
     let url = "https://pocnodebby.herokuapp.com/poc/v1/getPocList"
     let dataRes = await this.getData(url)
     await this.setState({propTeam:dataRes,tableSee:true})
-
   }
 
   addNewRow = () => {
