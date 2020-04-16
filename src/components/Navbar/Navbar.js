@@ -1,7 +1,6 @@
-import React, { Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addPoc, editPoc, removePoc, getPocList, getPocTeam} from '../../actions/index';
-
+import { getPocList, getPocTeam } from '../../actions/index';
 class Navbar extends Component {
     constructor(props){
         super(props);
@@ -37,9 +36,6 @@ class Navbar extends Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        addPoc: (pers) => dispatch(addPoc(pers)),
-        removePoc: (pers) => dispatch(removePoc(pers)),
-        editPoc: (id,history) => dispatch(editPoc(id,history)),
         getPocList: () => dispatch(getPocList()),
         getPocTeam: (team) => dispatch(getPocTeam(team))
     }

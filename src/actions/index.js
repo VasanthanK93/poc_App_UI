@@ -1,9 +1,18 @@
 import * as actionTypes from './actions';
 import axios from 'axios';
 
-const getPocListAction = (data,team) =>{
+const getPocListAction = (data) =>{
     return{
         type: actionTypes.GET_POCLIST ,
+        payload: {
+            data
+        }
+    }
+}
+
+const getPocTeamAction = (data,team) =>{
+    return{
+        type: actionTypes.GET_POCTEAM ,
         payload: {
             data,
             team
@@ -18,12 +27,12 @@ const addPocAction = data =>{
     }
 }
 
-const editPocAction = (data,index) =>{
+const editPocAction = (newData,oldData) =>{
     return{
         type: actionTypes.EDIT_POC ,
         payload: {
-            data,
-            index
+            newData,
+            oldData
         } 
     }
 }
@@ -39,33 +48,32 @@ const removePocAction = data =>{
 export const getPocList = () => 
     async dispatch => {
       const res = await axios.get("https://pocnodebby.herokuapp.com/poc/v1/getPocList")
-      dispatch(getPocListAction(res.data,'All'))
+      dispatch(getPocListAction(res.data))
     }
 
 export const getPocTeam = (team) => 
     async dispatch => {
         const res = await axios.get( "https://pocnodebby.herokuapp.com/poc/v1/getPocTeam/"+team)
-        dispatch(getPocListAction(res.data,team))
+        dispatch(getPocTeamAction(res.data,team))
     }
 
-export const addPoc = (poc,team) => 
+export const addPoc = (poc) => 
     async dispatch => {
-        let data = {...poc,"team": team,"deleteStatus" : false}
-        let url = "https://pocnodebby.herokuapp.com/poc/v1/addPoc/"+team
-        const res = await axios.post(url,data)  
+        let url = "https://pocnodebby.herokuapp.com/poc/v1/addPoc/"+poc.team
+        const res = await axios.post(url,poc)  
         dispatch(addPocAction(res.data))
     }
 
-export const editPoc = (poc,index,team) => 
+export const editPoc = (newData,oldData) =>
     async dispatch => {
-        let url = "https://pocnodebby.herokuapp.com/poc/v1/editPoc/"+team
-        const res = await axios.put(url,poc)  
-        dispatch(editPocAction(res.data,index)) 
+        let url = "https://pocnodebby.herokuapp.com/poc/v1/editPoc/"+newData.team
+        const res = await axios.put(url,newData)  
+        dispatch(editPocAction(res.data,oldData)) 
     }
 
 export const removePoc = id => 
     async dispatch => {
-        await axios.delete(`http://localhost:8080/team/${id}`)
+        await axios.delete("http://" +id)
         dispatch(removePocAction(id))
     }
 

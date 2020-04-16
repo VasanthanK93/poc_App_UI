@@ -11,6 +11,12 @@ const pocReducer = (state = initialState, action) => {
             return {
                 ...state,
                 pocList: action.payload.data,
+                team: 'All'
+            }; 
+        case actionTypes.GET_POCTEAM:
+            return {
+                ...state,
+                pocList: action.payload.data,
                 team: action.payload.team
             }; 
         case actionTypes.ADD_POC:
@@ -22,7 +28,7 @@ const pocReducer = (state = initialState, action) => {
             };
         case actionTypes.EDIT_POC:
             const pocs = [...state.pocList];
-            pocs[action.payload.index] = action.payload.data;
+            pocs[pocs.indexOf(action.payload.oldData)] = action.payload.newData;
             return { 
                 ...state,
                 pocList: pocs

@@ -2,8 +2,6 @@ import React, { Component} from 'react';
 import MaterialTable from 'material-table';
 import { connect } from 'react-redux';
 import { addPoc, editPoc, removePoc, getPocList} from '../../actions/index';
-import { isCompositeComponentWithType } from 'react-dom/test-utils';
-
 class TeamTable extends Component {
   constructor(props) {
     super(props);
@@ -39,17 +37,21 @@ class TeamTable extends Component {
         columns={this.state.columns}
         data={this.state.data}
         editable={{
-          onRowAdd: (newData) =>
+          onRowAdd: this.props.team !== 'All' ? (newData) =>
             new Promise((resolve) => {
-              resolve();
-              this.props.addPoc(newData,this.props.team)
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve) => {
-              resolve();
-              const index = this.props.pocList.indexOf(oldData)
-              this.props.editPoc(newData,index,this.props.team)
-            }),
+              let poc = {...newData,"team": this.props.team,"deleteStatus" : false}
+              this.props.addPoc(poc)
+              setTimeout(() => {  
+                resolve();  
+              },1000)
+            }) : null,
+          onRowUpdate: this.props.team !== 'All' ? (newData, oldData) =>
+            new Promise((resolve) => {  
+              this.props.editPoc(newData,oldData)
+              setTimeout(() => {  
+                resolve();  
+              },1000) 
+            }) : null,
             // new Promise((resolve) => {
             //   setTimeout(() => {
             //     resolve();
@@ -81,21 +83,18 @@ class TeamTable extends Component {
   }
 }
 
-
 const mapStateToProps = state => {
   return {
-      poc: state.pocs.poc,
       pocList: state.pocs.pocList,
       team: state.pocs.team
   }
-
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      addPoc: (poc,team) => dispatch(addPoc(poc,team)),
+      addPoc: (poc) => dispatch(addPoc(poc)),
       removePoc: (poc) => dispatch(removePoc(poc)),
-      editPoc: (poc,index,team) => dispatch(editPoc(poc,index,team)),
+      editPoc: (newData,oldData) => dispatch(editPoc(newData,oldData)),
       getPocList: () => dispatch(getPocList())
   }
 }
