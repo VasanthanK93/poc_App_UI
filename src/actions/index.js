@@ -1,6 +1,12 @@
 import * as actionTypes from './actions';
 import axios from 'axios';
 
+const loadingAction = () =>{
+    return{
+        type: actionTypes.LOADING
+    }
+}
+
 const getPocListAction = (data) =>{
     return{
         type: actionTypes.GET_POCLIST ,
@@ -47,18 +53,21 @@ const removePocAction = data =>{
 
 export const getPocList = () => 
     async dispatch => {
+      dispatch(loadingAction())
       const res = await axios.get("https://pocnodebby.herokuapp.com/poc/v1/getPocList")
       dispatch(getPocListAction(res.data))
     }
 
 export const getPocTeam = (team) => 
     async dispatch => {
+        dispatch(loadingAction())
         const res = await axios.get( "https://pocnodebby.herokuapp.com/poc/v1/getPocTeam/"+team)
         dispatch(getPocTeamAction(res.data,team))
     }
 
 export const addPoc = (poc) => 
     async dispatch => {
+        dispatch(loadingAction())
         let url = "https://pocnodebby.herokuapp.com/poc/v1/addPoc/"+poc.team
         const res = await axios.post(url,poc)  
         dispatch(addPocAction(res.data))
@@ -66,6 +75,7 @@ export const addPoc = (poc) =>
 
 export const editPoc = (newData,oldData) =>
     async dispatch => {
+        dispatch(loadingAction())
         let url = "https://pocnodebby.herokuapp.com/poc/v1/editPoc/"+newData.team
         const res = await axios.put(url,newData)  
         dispatch(editPocAction(res.data,oldData)) 

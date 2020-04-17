@@ -7,8 +7,8 @@ class TeamTable extends Component {
     super(props);
     this.state = {
       columns: [
-        { title: 'POC ID', field: 'pocId', editable: 'never'},
-        { title: 'Team', field: 'team',editable: 'never'},
+        { title: 'POC ID', field: 'pocId', editable: 'never' },
+        { title: 'Team', field: 'team',editable: 'never' },
         { title: 'POC Description', field: 'pocDesc' },
         { title: 'Wiki Link', field: 'wikiLink' },
         {
@@ -18,7 +18,8 @@ class TeamTable extends Component {
         },
         { title: 'Remarks', field: 'remarks' }
       ],
-      data: []
+      data: [],
+      loading: false
     }
   }
 
@@ -27,7 +28,7 @@ class TeamTable extends Component {
   }
 
   static getDerivedStateFromProps(nextProps){
-    return { data: nextProps.pocList }
+    return { data: nextProps.pocList , loading: nextProps.loading}
   }
 
   render(){
@@ -36,35 +37,28 @@ class TeamTable extends Component {
         title=""
         columns={this.state.columns}
         data={this.state.data}
+        isLoading={this.state.loading}
+        options={{headerStyle: {'font-weight': 'bold'}}}
         editable={{
           onRowAdd: this.props.team !== 'All' ? (newData) =>
-            new Promise((resolve) => {
-              let poc = {...newData,"team": this.props.team,"deleteStatus" : false}
-              this.props.addPoc(poc)
-              setTimeout(() => {  
+            new Promise((resolve, reject) => {
+              if(newData && newData.pocDesc.trim()){
+                let poc = {...newData,"team": this.props.team,"deleteStatus" : false}
+                this.props.addPoc(poc)  
                 resolve();  
-              },1000)
+              }else{
+                reject()
+              }
             }) : null,
           onRowUpdate: this.props.team !== 'All' ? (newData, oldData) =>
-            new Promise((resolve) => {  
-              this.props.editPoc(newData,oldData)
-              setTimeout(() => {  
-                resolve();  
-              },1000) 
+            new Promise((resolve, reject) => {  
+              if(newData && newData.pocDesc.trim()){
+                this.props.editPoc(newData,oldData)  
+                resolve();   
+              }else{
+                reject()
+              }
             }) : null,
-            // new Promise((resolve) => {
-            //   setTimeout(() => {
-            //     resolve();
-            //     if (oldData) {
-            //       this.setState((prevState) => {
-            //         const data = [...prevState.data];
-            //         data[data.indexOf(oldData)] = newData;
-            //         this.props.addPoc(newData); 
-            //         return { ...prevState, data };
-            //       });
-            //     }
-            //   }, 600);
-            // }),
           // onRowDelete: (oldData) =>
           //   new Promise((resolve) => {
           //     setTimeout(() => {
@@ -86,7 +80,8 @@ class TeamTable extends Component {
 const mapStateToProps = state => {
   return {
       pocList: state.pocs.pocList,
-      team: state.pocs.team
+      team: state.pocs.team,
+      loading: state.pocs.loading
   }
 }
 
