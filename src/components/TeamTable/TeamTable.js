@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import MaterialTable from 'material-table';
 import { connect } from 'react-redux';
 import { addPoc, editPoc, removePoc, getPocList} from '../../actions/index';
+import Navbar from '../Navbar/Navbar';
 class TeamTable extends Component {
   constructor(props) {
     super(props);
@@ -33,46 +34,49 @@ class TeamTable extends Component {
 
   render(){
     return (
-      <MaterialTable
-        title=""
-        columns={this.state.columns}
-        data={this.state.data}
-        isLoading={this.state.loading}
-        options={{headerStyle: {'font-weight': 'bold'}}}
-        editable={{
-          onRowAdd: this.props.team !== 'All' ? (newData) =>
-            new Promise((resolve, reject) => {
-              if(newData && newData.pocDesc.trim()){
-                let poc = {...newData,"team": this.props.team,"deleteStatus" : false}
-                this.props.addPoc(poc)  
-                resolve();  
-              }else{
-                reject()
-              }
-            }) : null,
-          onRowUpdate: this.props.team !== 'All' ? (newData, oldData) =>
-            new Promise((resolve, reject) => {  
-              if(newData && newData.pocDesc.trim()){
-                this.props.editPoc(newData,oldData)  
-                resolve();   
-              }else{
-                reject()
-              }
-            }) : null,
-          // onRowDelete: (oldData) =>
-          //   new Promise((resolve) => {
-          //     setTimeout(() => {
-          //       resolve();
-          //       this.setState((prevState) => {
-          //         const data = [...prevState.data];
-          //         data.splice(data.indexOf(oldData), 1);
-          //         this.props.removePoc(oldData.id)
-          //         return { ...prevState, data };
-          //       });
-          //     }, 600);
-          //   }),
-        }}
-      />
+      <div>
+        <Navbar/>
+        <MaterialTable
+          title=""
+          columns={this.state.columns}
+          data={this.state.data}
+          isLoading={this.state.loading}
+          options={{headerStyle: {'font-weight': 'bold'}}}
+          editable={{
+            onRowAdd: this.props.team !== 'All' ? (newData) =>
+              new Promise((resolve, reject) => {
+                if(newData && newData.pocDesc.trim()){
+                  let poc = {...newData,"team": this.props.team,"deleteStatus" : false}
+                  this.props.addPoc(poc)  
+                  resolve();  
+                }else{
+                  reject()
+                }
+              }) : null,
+            onRowUpdate: this.props.team !== 'All' ? (newData, oldData) =>
+              new Promise((resolve, reject) => {  
+                if(newData && newData.pocDesc.trim()){
+                  this.props.editPoc(newData,oldData)  
+                  resolve();   
+                }else{
+                  reject()
+                }
+              }) : null,
+            // onRowDelete: (oldData) =>
+            //   new Promise((resolve) => {
+            //     setTimeout(() => {
+            //       resolve();
+            //       this.setState((prevState) => {
+            //         const data = [...prevState.data];
+            //         data.splice(data.indexOf(oldData), 1);
+            //         this.props.removePoc(oldData.id)
+            //         return { ...prevState, data };
+            //       });
+            //     }, 600);
+            //   }),
+          }}
+        />
+      </div>
     );
   }
 }
