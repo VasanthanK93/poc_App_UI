@@ -3,28 +3,29 @@ import './App.css';
 import { Provider } from 'react-redux';
 import store from './store';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import TeamTable from './components/TeamTable/TeamTable';
+import Team from './components/Team/Team';
+import Navbar from './components/Navbar/Navbar'
 import Login from './components/Login/Login';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import Register from './components/Register/Register';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { history } from './helpers/history';
+import { PrivateRoute } from './components/Route/PrivateRoute'
 
 class App extends Component {
   render(){
     return (
       <Provider store={store}>
-        <div className="App">
-          <header className="App-header">
-            <h1 className="App-title">POC FORUM</h1>
-          </header>
-          <div className = "container">
-          <Router>
-            <Switch>
-              <Route path="/" exact component={TeamTable} />
-              <Route path="/login" exact component={Login} />
-              <Route path="/poclist" component={TeamTable} />
-            </Switch>
-          </Router>
-          </div>
-        </div>
+          <Router history={history}>
+             <div className="App">
+                <Navbar/>
+                <Switch>
+                    <PrivateRoute exact path="/" component={Team} />
+                    <Route path="/login" component={Login} />
+                    <Route path="/register" component={Register} />
+                    <Redirect from="*" to="/" />
+                </Switch> 
+            </div>
+          </Router>  
       </Provider>
     );
   }

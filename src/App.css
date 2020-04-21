@@ -14,3 +14,11 @@
   display: block;
   padding: 30px;
 }
+
+.user{
+font-size: 20px;
+}
+.user span{
+  color: white;
+}
+

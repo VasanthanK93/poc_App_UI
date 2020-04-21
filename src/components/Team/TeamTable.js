@@ -2,7 +2,6 @@ import React, { Component} from 'react';
 import MaterialTable from 'material-table';
 import { connect } from 'react-redux';
 import { addPoc, editPoc, removePoc, getPocList} from '../../actions/index';
-import Navbar from '../Navbar/Navbar';
 class TeamTable extends Component {
   constructor(props) {
     super(props);
@@ -34,8 +33,6 @@ class TeamTable extends Component {
 
   render(){
     return (
-      <div>
-        <Navbar/>
         <MaterialTable
           title=""
           columns={this.state.columns}
@@ -76,7 +73,6 @@ class TeamTable extends Component {
             //   }),
           }}
         />
-      </div>
     );
   }
 }
