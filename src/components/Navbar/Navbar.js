@@ -5,10 +5,12 @@ class Navbar extends Component {
     render(){
         return (
             <nav className="navBar">
-                <h1>POC FORUM</h1>
+                <h4>POC FORUM
+                  {this.props.user && this.props.user.userName && 
+                   <h6 className=" pull-right"> Hi    {this.props.user.userName} </h6>}
+                </h4>
                 {this.props.user && this.props.user.userName && 
                     <ul> 
-                        <h4> Hi    {this.props.user.userName} </h4>
                         <li><NavLink to="/login">Logout</NavLink></li>
                         { this.props.user.role === "DM" &&
                         <li><NavLink to="/users">Users</NavLink></li>

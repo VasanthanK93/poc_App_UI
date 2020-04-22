@@ -34,7 +34,7 @@ class TeamTable extends Component {
   render(){
     return (
         <MaterialTable
-          title=""
+          title="Registered POCS"
           columns={this.state.columns}
           data={this.state.data}
           isLoading={this.state.loading}

@@ -22,7 +22,7 @@ class Team extends Component {
         return (
             <div className="container">
                 <div className = "col-md-3 select">
-                    <span>Task List :    </span>
+                    <span>Team :    </span>
                     <select value={this.state.value} onChange={this.handleChange} placeholder="Select">
                         <option value="All">All</option>
                         <option value="T1">Team 1</option>
