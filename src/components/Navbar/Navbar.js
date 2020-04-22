@@ -1,32 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 class Navbar extends Component {
     render(){
         return (
-            <div className="App">
-              <header className="App-header">
-                <h1 className="App-title">POC FORUM
+            <nav className="navBar">
+                <h1>POC FORUM</h1>
                 {this.props.user && this.props.user.userName && 
-                    <div className="user pull-right" >
-                        <div>Hi    {this.props.user.userName}</div>
-                        <Link to="/login" >Logout</Link>
-                    </div>
+                    <ul> 
+                        <h4> Hi    {this.props.user.userName} </h4>
+                        <li><NavLink to="/login">Logout</NavLink></li>
+                        { this.props.user.role === "DM" &&
+                        <li><NavLink to="/users">Users</NavLink></li>
+                        }
+                        <li><NavLink exact to="/">Home</NavLink></li>
+                    </ul>
                 }
-                </h1>
-                
-              </header>
-            </div> 
+           </nav>
         )
     }
 }
 
 const mapStateToProps = state => {
     return {
-        user: state.user.user
+        user: state.users.user
     }
 }
 
 export default connect(mapStateToProps)(Navbar);
-  
-  

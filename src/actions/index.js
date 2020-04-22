@@ -2,9 +2,9 @@ import * as actionTypes from './actions';
 import axios from 'axios';
 import { history } from '../helpers/history';
 
-const loadingAction = () =>{
+const pocLoadingAction = () =>{
     return{
-        type: actionTypes.LOADING
+        type: actionTypes.POC_LOADING
     }
 }
 
@@ -64,23 +64,48 @@ const logoutUserAction = () => {
     }  
 }
 
+const userLoadingAction = () =>{
+    return{
+        type: actionTypes.USER_LOADING
+    }
+}
+
+const getUsersListAction = (data) =>{
+    return{
+        type: actionTypes.GET_USERSIST ,
+        payload: {
+            data
+        }
+    }
+}
+
+const editUserAction = (newData,oldData) =>{
+    return{
+        type: actionTypes.EDIT_USER ,
+        payload: {
+            newData,
+            oldData
+        } 
+    }
+}
+
 export const getPocList = () => 
     async dispatch => {
-      dispatch(loadingAction())
+      dispatch(pocLoadingAction())
       const res = await axios.get("https://pocnodebby.herokuapp.com/poc/v1/getPocList")
       dispatch(getPocListAction(res.data))
     }
 
 export const getPocTeam = (team) => 
     async dispatch => {
-        dispatch(loadingAction())
+        dispatch(pocLoadingAction())
         const res = await axios.get( "https://pocnodebby.herokuapp.com/poc/v1/getPocTeam/"+team)
         dispatch(getPocTeamAction(res.data,team))
     }
 
 export const addPoc = (poc) => 
     async dispatch => {
-        dispatch(loadingAction())
+        dispatch(pocLoadingAction())
         let url = "https://pocnodebby.herokuapp.com/poc/v1/addPoc/"+poc.team
         const res = await axios.post(url,poc)  
         dispatch(addPocAction(res.data))
@@ -88,7 +113,7 @@ export const addPoc = (poc) =>
 
 export const editPoc = (newData,oldData) =>
     async dispatch => {
-        dispatch(loadingAction())
+        dispatch(pocLoadingAction())
         let url = "https://pocnodebby.herokuapp.com/poc/v1/editPoc/"+newData.team
         const res = await axios.put(url,newData)  
         dispatch(editPocAction(res.data,oldData)) 
@@ -132,5 +157,22 @@ export const registerUser = (user) =>
         }else{       
             // error handling
         }
+    }
+
+export const getUsersList = () => 
+    async dispatch => {
+        dispatch(userLoadingAction())
+        let url = "https://pocnodebby.herokuapp.com/user/v1/getUsersList/"
+        const res = await axios.get(url)
+        dispatch(getUsersListAction(res.data))
+    }
+
+export const editUser = (newData,oldData) =>
+    async dispatch => {
+        dispatch(userLoadingAction())
+        let url = "https://pocnodebby.herokuapp.com/user/v1/editUser/"+oldData.userName
+        const res = await axios.put(url,newData)  
+        console.log(res.data)
+        dispatch(editUserAction(res.data,oldData)) 
     }
 

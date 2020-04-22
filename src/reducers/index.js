@@ -4,5 +4,5 @@ import userReducer from "./userReducer"
 
 export default combineReducers({
     pocs: pocReducer,
-    user: userReducer
+    users: userReducer
 });

@@ -8,7 +8,7 @@ const initialState = {
 
 const pocReducer = (state = initialState, action) => {
     switch (action.type) {
-        case actionTypes.LOADING:
+        case actionTypes.POC_LOADING:
             return {
                 ...state,
                 loading: true
