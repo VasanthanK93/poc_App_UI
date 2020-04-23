@@ -24,10 +24,11 @@
   padding: 10px;
 }
 
-.navBar h6{
+.navBar p{
   color: white;
   padding: 5px;
   margin: 0;
+  font-size: 15px;
 }
 
 .navBar ul{

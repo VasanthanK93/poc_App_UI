@@ -11,7 +11,7 @@ class Navbar extends Component {
             <nav className="navBar">
                 <h4>POC FORUM
                   {this.props.user && this.props.user.userName && 
-                   <h6 className=" pull-right"> Hi    {this.props.user.userName} </h6>}
+                   <p className=" pull-right"> Hi    {this.props.user.userName} </p>}
                 </h4>
                 {this.props.user && this.props.user.userName && 
                     <ul> 

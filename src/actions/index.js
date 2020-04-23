@@ -160,7 +160,8 @@ export const getUsersList = () =>
         dispatch(userLoadingAction())
         let url = "https://pocnodebby.herokuapp.com/user/v1/getUsersList/"
         const res = await axios.get(url)
-        dispatch(getUsersListAction(res.data))
+        const activeUsers = res.data.filter( user => user.userActive !== false)
+        dispatch(getUsersListAction(activeUsers))
     }
 
 export const editUser = (newData,oldData) =>
@@ -188,6 +189,5 @@ export const deleteUser = (oldData) =>
         let user = {...oldData,"userActive" : false}
         let url = "https://pocnodebby.herokuapp.com/user/v1/editUser/"+oldData.userName
         const res = await axios.put(url,user)  
-        console.log(res)
         dispatch(deleteUserAction(oldData))
     }
