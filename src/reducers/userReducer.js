@@ -29,14 +29,26 @@ const userReducer = (state = initialState, action) => {
           users: action.payload.data,
           loading: false
       }; 
-    case actionTypes.EDIT_USER:
-        const users = [...state.users];
-        users[users.indexOf(action.payload.oldData)] = action.payload.newData;
-        return { 
-            ...state,
-            users: users,
-            loading: false
-        }; 
+    case actionTypes.EDIT_USER: {
+      const users = [...state.users];
+      users[users.indexOf(action.payload.oldData)] = action.payload.newData;
+      return { 
+          ...state,
+          users: users,
+          loading: false
+      }; 
+    }
+      
+    case actionTypes.DELETE_USER: { 
+      const users = [...state.users];
+      users.splice(users.indexOf(action.payload.oldData), 1);
+      return {
+          ...state,
+          users: users,
+          loading: false
+      }; 
+    }    
+
     default:
       return state;
   }

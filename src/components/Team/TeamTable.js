@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import MaterialTable from 'material-table';
 import { connect } from 'react-redux';
-import { addPoc, editPoc, removePoc, getPocList} from '../../actions/index';
+import { addPoc, editPoc, getPocList} from '../../actions/index';
 class TeamTable extends Component {
   constructor(props) {
     super(props);
@@ -58,19 +58,7 @@ class TeamTable extends Component {
                 }else{
                   reject()
                 }
-              }) : null,
-            // onRowDelete: (oldData) =>
-            //   new Promise((resolve) => {
-            //     setTimeout(() => {
-            //       resolve();
-            //       this.setState((prevState) => {
-            //         const data = [...prevState.data];
-            //         data.splice(data.indexOf(oldData), 1);
-            //         this.props.removePoc(oldData.id)
-            //         return { ...prevState, data };
-            //       });
-            //     }, 600);
-            //   }),
+              }) : null
           }}
         />
     );
@@ -88,7 +76,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
       addPoc: (poc) => dispatch(addPoc(poc)),
-      removePoc: (poc) => dispatch(removePoc(poc)),
       editPoc: (newData,oldData) => dispatch(editPoc(newData,oldData)),
       getPocList: () => dispatch(getPocList())
   }

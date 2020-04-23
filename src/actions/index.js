@@ -44,13 +44,6 @@ const editPocAction = (newData,oldData) =>{
     }
 }
 
-const removePocAction = data =>{
-    return{
-        type: actionTypes.REMOVE_POC,
-        payload: data
-    }
-}
-
 const loginUserAction = data => {
     return{
         type: actionTypes.LOGIN_USER,
@@ -89,6 +82,15 @@ const editUserAction = (newData,oldData) =>{
     }
 }
 
+const deleteUserAction = (oldData) =>{
+    return{
+        type: actionTypes.DELETE_USER ,
+        payload: {
+            oldData
+        } 
+    }
+}
+
 export const getPocList = () => 
     async dispatch => {
       dispatch(pocLoadingAction())
@@ -117,12 +119,6 @@ export const editPoc = (newData,oldData) =>
         let url = "https://pocnodebby.herokuapp.com/poc/v1/editPoc/"+newData.team
         const res = await axios.put(url,newData)  
         dispatch(editPocAction(res.data,oldData)) 
-    }
-
-export const removePoc = id => 
-    async dispatch => {
-        await axios.delete("http://" +id)
-        dispatch(removePocAction(id))
     }
 
 export const loginUser = (user) => 
@@ -172,7 +168,26 @@ export const editUser = (newData,oldData) =>
         dispatch(userLoadingAction())
         let url = "https://pocnodebby.herokuapp.com/user/v1/editUser/"+oldData.userName
         const res = await axios.put(url,newData)  
-        console.log(res.data)
         dispatch(editUserAction(res.data,oldData)) 
     }
 
+export const getProfile = () => 
+    async dispatch => {
+        let user =JSON.parse(localStorage.getItem('user'))
+        if(user){
+            dispatch(loginUserAction(user))   
+        }else{       
+            localStorage.removeItem('user')
+            history.push('/')  
+        }
+    }
+
+export const deleteUser = (oldData) => 
+    async dispatch => {
+        dispatch(userLoadingAction())
+        let user = {...oldData,"active" : false}
+        let url = "https://pocnodebby.herokuapp.com/user/v1/editUser/"+oldData.userName
+        const res = await axios.put(url,user)  
+        console.log(res)
+        dispatch(deleteUserAction(oldData))
+    }

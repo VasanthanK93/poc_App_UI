@@ -43,13 +43,6 @@ const pocReducer = (state = initialState, action) => {
                 pocList: pocs,
                 loading: false
             }; 
-        case actionTypes.REMOVE_POC:
-            return {
-                ...state,
-                pocList: state.pocList.filter(
-                    poc => poc.id !== action.payload
-                )
-            }; 
         default:
             return state;
     }   

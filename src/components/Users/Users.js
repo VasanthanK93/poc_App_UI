@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import MaterialTable from 'material-table';
 import { connect } from 'react-redux';
-import { getUsersList, editUser } from '../../actions/index';
+import { getUsersList, editUser, deleteUser } from '../../actions/index';
 class Users extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +11,7 @@ class Users extends Component {
         {
           title: 'Role',
           field: 'role',
-          lookup: { 'DM': 'DM', 'TeamMember': 'Team Member', 'TeamLead': 'TeamLead' },
+          lookup: { 'DM': 'DM', 'TeamMember': 'Team Member' },
         },
         { title: 'Teams', field: 'teams' }
       ],
@@ -46,6 +46,11 @@ class Users extends Component {
                 }else{
                   reject()
                 }
+              }),
+              onRowDelete: (oldData) =>
+              new Promise((resolve) => {
+                this.props.deleteUser(oldData)  
+                resolve();  
               })
           }}
         />
@@ -63,8 +68,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+      getUsersList: () => dispatch(getUsersList()),
       editUser: (newData,oldData) => dispatch(editUser(newData,oldData)),
-      getUsersList: () => dispatch(getUsersList())
+      deleteUser: (oldData) => dispatch(deleteUser(oldData))
   }
 }
 
