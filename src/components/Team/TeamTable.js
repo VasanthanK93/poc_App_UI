@@ -38,7 +38,7 @@ class TeamTable extends Component {
           columns={this.state.columns}
           data={this.state.data}
           isLoading={this.state.loading}
-          options={{headerStyle: {'font-weight': 'bold'}}}
+          options={{headerStyle: {'fontWeight': 'bold'}}}
           editable={{
             onRowAdd: this.props.user && this.props.user.teams &&  this.props.user.teams.includes(this.props.team) ? (newData) =>
               new Promise((resolve, reject) => {

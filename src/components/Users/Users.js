@@ -62,7 +62,7 @@ class Users extends Component {
           columns={this.state.columns}
           data={this.state.data}
           isLoading={this.state.loading}
-          options={{headerStyle: {'font-weight': 'bold'}}}
+          options={{headerStyle: {'fontWeight': 'bold'}}}
           editable={{
             onRowUpdate: (newData, oldData) =>
               new Promise((resolve, reject) => {  
