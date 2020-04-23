@@ -16,7 +16,7 @@ class Navbar extends Component {
                 {this.props.user && this.props.user.userName && 
                     <ul> 
                         <li><NavLink to="/login">Logout</NavLink></li>
-                        { this.props.user.role === "DM" &&
+                        { this.props.user.role === "admin" &&
                         <li><NavLink to="/users">Users</NavLink></li>
                         }
                         <li><NavLink exact to="/">Home</NavLink></li>
