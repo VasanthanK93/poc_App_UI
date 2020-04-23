@@ -185,7 +185,7 @@ export const getProfile = () =>
 export const deleteUser = (oldData) => 
     async dispatch => {
         dispatch(userLoadingAction())
-        let user = {...oldData,"active" : false}
+        let user = {...oldData,"userActive" : false}
         let url = "https://pocnodebby.herokuapp.com/user/v1/editUser/"+oldData.userName
         const res = await axios.put(url,user)  
         console.log(res)
