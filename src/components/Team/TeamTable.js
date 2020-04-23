@@ -40,7 +40,7 @@ class TeamTable extends Component {
           isLoading={this.state.loading}
           options={{headerStyle: {'font-weight': 'bold'}}}
           editable={{
-            onRowAdd: this.props.user.teams.includes(this.props.team)? (newData) =>
+            onRowAdd: this.props.user && this.props.user.teams &&  this.props.user.teams.includes(this.props.team) ? (newData) =>
               new Promise((resolve, reject) => {
                 if(newData && newData.pocDesc.trim()){
                   let poc = {...newData,"team": this.props.team,"deleteStatus" : false}
@@ -50,7 +50,7 @@ class TeamTable extends Component {
                   reject()
                 }
               }) : null,
-            onRowUpdate: this.props.user.teams.includes(this.props.team) ? (newData, oldData) =>
+            onRowUpdate: this.props.user && this.props.user.teams && this.props.user.teams.includes(this.props.team) ? (newData, oldData) =>
               new Promise((resolve, reject) => {  
                 if(newData && newData.pocDesc.trim()){
                   this.props.editPoc(newData,oldData)  
