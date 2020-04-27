@@ -2,6 +2,9 @@ import * as actionTypes from './actions';
 import axios from 'axios';
 import { history } from '../helpers/history';
 
+const baseUrl = "https://pocnodebby.herokuapp.com/"
+//const baseUrl = "http://localhost:8080/"
+
 const pocLoadingAction = () =>{
     return{
         type: actionTypes.POC_LOADING
@@ -94,21 +97,21 @@ const deleteUserAction = (oldData) =>{
 export const getPocList = () => 
     async dispatch => {
       dispatch(pocLoadingAction())
-      const res = await axios.get("https://pocnodebby.herokuapp.com/poc/v1/getPocList")
+      const res = await axios.get(baseUrl+"poc/v1/getPocList")
       dispatch(getPocListAction(res.data))
     }
 
 export const getPocTeam = (team) => 
     async dispatch => {
         dispatch(pocLoadingAction())
-        const res = await axios.get( "https://pocnodebby.herokuapp.com/poc/v1/getPocTeam/"+team)
+        const res = await axios.get( baseUrl+"poc/v1/getPocTeam/"+team)
         dispatch(getPocTeamAction(res.data,team))
     }
 
 export const addPoc = (poc) => 
     async dispatch => {
         dispatch(pocLoadingAction())
-        let url = "https://pocnodebby.herokuapp.com/poc/v1/addPoc/"+poc.team
+        let url = baseUrl+"poc/v1/addPoc/"+poc.team
         const res = await axios.post(url,poc)  
         dispatch(addPocAction(res.data))
     }
@@ -116,14 +119,14 @@ export const addPoc = (poc) =>
 export const editPoc = (newData,oldData) =>
     async dispatch => {
         dispatch(pocLoadingAction())
-        let url = "https://pocnodebby.herokuapp.com/poc/v1/editPoc/"+newData.team
+        let url = baseUrl+"poc/v1/editPoc/"+newData.team
         const res = await axios.put(url,newData)  
         dispatch(editPocAction(res.data,oldData)) 
     }
 
 export const loginUser = (user) => 
     async dispatch => {
-        let url = "https://pocnodebby.herokuapp.com/user/v1/authenticate/"
+        let url = baseUrl+"user/v1/authenticate/"
         const res = await axios.post(url,user)
         if(res.data.status === "Success"){
             const user = res.data.data.user
@@ -143,13 +146,13 @@ export const logoutUser = () =>
 
 export const registerUser = (user) => 
     async dispatch => {
-        let url = "https://pocnodebby.herokuapp.com/user/v1/register/"
+        let url = baseUrl+"user/v1/register/"
         const res = await axios.post(url,user)  
         if(res.data.status === "success"){
-            const user = res.data.data
-            localStorage.setItem('user', JSON.stringify(user));
-            dispatch(loginUserAction(user))
-            history.push('/')  
+            //const user = res.data.data
+            //localStorage.setItem('user', JSON.stringify(user));  
+            //dispatch(loginUserAction(user))
+            history.push('/login')  
         }else{       
             // error handling
         }
@@ -158,7 +161,7 @@ export const registerUser = (user) =>
 export const getUsersList = () => 
     async dispatch => {
         dispatch(userLoadingAction())
-        let url = "https://pocnodebby.herokuapp.com/user/v1/getUsersList/"
+        let url = baseUrl+"user/v1/getUsersList/"
         const res = await axios.get(url)
         const activeUsers = res.data.filter( user => user.userActive !== false)
         dispatch(getUsersListAction(activeUsers))
@@ -167,7 +170,7 @@ export const getUsersList = () =>
 export const editUser = (newData,oldData) =>
     async dispatch => {
         dispatch(userLoadingAction())
-        let url = "https://pocnodebby.herokuapp.com/user/v1/editUser/"+oldData.userName
+        let url = baseUrl+"user/v1/editUser/"+oldData.userName
         const res = await axios.put(url,newData)  
         dispatch(editUserAction(res.data,oldData)) 
     }
@@ -187,7 +190,7 @@ export const deleteUser = (oldData) =>
     async dispatch => {
         dispatch(userLoadingAction())
         let user = {...oldData,"userActive" : false}
-        let url = "https://pocnodebby.herokuapp.com/user/v1/editUser/"+oldData.userName
+        let url = baseUrl+"user/v1/editUser/"+oldData.userName
         const res = await axios.put(url,user)  
         dispatch(deleteUserAction(oldData))
     }

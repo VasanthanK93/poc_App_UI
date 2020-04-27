@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import MaterialTable from 'material-table';
 import { connect } from 'react-redux';
 import { addPoc, editPoc, getPocList} from '../../actions/index';
+import TextField from '@material-ui/core/TextField';
 class TeamTable extends Component {
   constructor(props) {
     super(props);
@@ -9,14 +10,24 @@ class TeamTable extends Component {
       columns: [
         { title: 'POC ID', field: 'pocId', editable: 'never' },
         { title: 'Team', field: 'team',editable: 'never' },
-        { title: 'POC Description', field: 'pocDesc' },
+        { title: 'POC Description',
+          field: 'pocDesc',
+          editComponent: props => (
+            <TextField
+              multiline
+              rowsMax={4}
+              value={props.rowData.pocDesc}
+              onChange={(e)=> props.onChange(e.target.value)}
+            />
+          )
+         },
         { title: 'Wiki Link', field: 'wikiLink' },
         {
           title: 'Status',
           field: 'status',
           lookup: { 'New Idea': 'New Idea', 'Shortlisted': 'Shortlisted', 'InProgress': 'In Progress', 'Blocked': 'Blocked', 'Completed': 'Completed', 'Demo Shown to Customer': 'Demo Shown to Customer' },
         },
-        { title: 'Remarks', field: 'remarks' }
+        { title: 'Notes', field: 'notes' }
       ],
       data: [],
       loading: false
