@@ -1,22 +1,35 @@
 import React, { Component} from 'react';
 import MaterialTable from 'material-table';
 import { connect } from 'react-redux';
-import { getUsersList, editUser, deleteUser } from '../../actions/index';
+import { getUsersList, editUser, deleteUser, getRoles, getTeams } from '../../actions/index';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
+import Switch from '@material-ui/core/Switch';
 class Users extends Component {
   constructor(props) {
     super(props);
-    const teamList = [ 'T1', 'T2','T3','T4','T5' ];
     this.state = {
+      teamsList: [],
+      rolesList: [],
       columns: [
         { title: 'Username', field: 'userName', editable: 'never' },
         {
           title: 'Role',
           field: 'role',
-          lookup: { 'admin': 'Admin', 'TeamMember': 'Team Member' },
+          //lookup: { 'admin': 'Admin', 'TeamMember': 'Team Member' },
+          editComponent: props => (
+            <Select
+            value={props.rowData.role}
+            onChange={(e)=> props.onChange(e.target.value)}>
+            {this.state.rolesList.map(role => (
+              <MenuItem key={role.roleId} value={role.role}>
+                {role.role}
+              </MenuItem>
+            ))}
+            </Select>
+          )
         },
         { title: 'Teams',
           field: 'teams',
@@ -31,15 +44,30 @@ class Users extends Component {
               onChange={(e)=> props.onChange(e.target.value)}
               renderValue={selected => selected.join(', ')}
             >
-              {teamList.map(team => (
-                <MenuItem key={team} value={team}>
-                  <Checkbox checked={props.rowData.teams.indexOf(team) > -1} />
-                  <ListItemText primary={team} />
+              {this.state.teamsList.map(team => (
+                <MenuItem key={team.teamId} value={team.teamName}>
+                  <Checkbox checked={props.rowData.teams.indexOf(team.teamName) > -1} />
+                  <ListItemText primary={team.teamName} />
                 </MenuItem>
               ))}
             </Select>
           )
-       }
+       },
+       { title: 'User Approval',
+         field: 'isUserApproved',
+         type: 'boolean',
+         render: rowData => (
+          <Switch
+            checked={rowData.isUserApproved}
+          />
+        ),
+         editComponent: props => (
+          <Switch
+            checked={props.rowData.isUserApproved}
+            onChange={(e)=> props.onChange(e.target.checked)} 
+          />
+         )
+        },
       ],
       data: [],
       loading: false
@@ -48,10 +76,17 @@ class Users extends Component {
 
   componentDidMount(){
     this.props.getUsersList();
+    this.props.getRoles();
+    this.props.getTeams();
   }
 
   static getDerivedStateFromProps(nextProps){
-    return { data: nextProps.usersList , loading: nextProps.loading}
+    return { 
+      data: nextProps.usersList ,
+      loading: nextProps.loading ,
+      teamsList: nextProps.teamsList,
+      rolesList: nextProps.rolesList
+    }
   }
 
   render(){
@@ -88,7 +123,9 @@ class Users extends Component {
 const mapStateToProps = state => {
   return {
       usersList: state.users.users,
-      loading: state.users.loading
+      loading: state.users.loading,
+      rolesList: state.common.roles,
+      teamsList: state.common.teams
   }
 }
 
@@ -96,7 +133,9 @@ const mapDispatchToProps = dispatch => {
   return {
       getUsersList: () => dispatch(getUsersList()),
       editUser: (newData,oldData) => dispatch(editUser(newData,oldData)),
-      deleteUser: (oldData) => dispatch(deleteUser(oldData))
+      deleteUser: (oldData) => dispatch(deleteUser(oldData)),
+      getRoles: () => dispatch(getRoles()),
+      getTeams: () => dispatch(getTeams())
   }
 }
 

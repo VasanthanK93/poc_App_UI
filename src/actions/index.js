@@ -94,6 +94,24 @@ const deleteUserAction = (oldData) =>{
     }
 }
 
+const getRolesAction = (data) =>{
+    return{
+        type: actionTypes.GET_ROLES ,
+        payload: {
+            data
+        }
+    }
+}
+
+const getTeamsAction = (data) =>{
+    return{
+        type: actionTypes.GET_TEAMS ,
+        payload: {
+            data
+        }
+    }
+}
+
 export const getPocList = () => 
     async dispatch => {
       dispatch(pocLoadingAction())
@@ -193,4 +211,18 @@ export const deleteUser = (oldData) =>
         let url = baseUrl+"user/v1/editUser/"+oldData.userName
         const res = await axios.put(url,user)  
         dispatch(deleteUserAction(oldData))
+    }
+
+export const getRoles = () => 
+    async dispatch => {
+        let url = baseUrl+"role/v1/getRoles/"
+        const res = await axios.get(url)
+        dispatch(getRolesAction(res.data))
+    }
+
+export const getTeams = () => 
+    async dispatch => {
+        let url = baseUrl+"team/v1/getTeams/"
+        const res = await axios.get(url)
+        dispatch(getTeamsAction(res.data))
     }
