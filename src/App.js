@@ -10,7 +10,7 @@ import Register from './components/Register/Register';
 import Users from './components/Users/Users';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { history } from './helpers/history';
-import { PrivateRoute } from './components/Route/PrivateRoute'
+import { PrivateRoute } from './components/Route/PrivateRoute';
 
 class App extends Component {
   render(){

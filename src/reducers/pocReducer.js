@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actions';
 
 const initialState = {
     pocList: [],
+    pocLog: [],
     team:'All',
     loading: false
 };
@@ -41,6 +42,12 @@ const pocReducer = (state = initialState, action) => {
             return { 
                 ...state,
                 pocList: pocs,
+                loading: false
+            }; 
+        case actionTypes.GET_POCLOG:
+            return {
+                ...state,
+                pocLog: action.payload.data,
                 loading: false
             }; 
         default:

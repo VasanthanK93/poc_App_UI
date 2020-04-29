@@ -47,6 +47,15 @@ const editPocAction = (newData,oldData) =>{
     }
 }
 
+const getPocLogAction = (data) =>{
+    return{
+        type: actionTypes.GET_POCLOG ,
+        payload: {
+            data
+        }
+    }
+}
+
 const loginUserAction = data => {
     return{
         type: actionTypes.LOGIN_USER,
@@ -225,4 +234,11 @@ export const getTeams = () =>
         let url = baseUrl+"team/v1/getTeams/"
         const res = await axios.get(url)
         dispatch(getTeamsAction(res.data))
+    }
+
+export const getPocLog = (pocId) => 
+    async dispatch => {
+        dispatch(pocLoadingAction())
+        //const res = await axios.get( baseUrl+"poc/v1/getPocTeam/"+pocId)
+        dispatch(getPocLogAction([]))
     }
