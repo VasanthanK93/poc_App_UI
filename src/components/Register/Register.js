@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { registerUser } from '../../actions/index';
+import { registerUser, clearAction } from '../../actions/index';
 
 class Register extends Component {
     constructor(props) {
@@ -37,12 +37,21 @@ class Register extends Component {
         }
     }
 
+    // componentDidUpdate(){
+    //     if(this.props.alertMessage.trim()){
+    //         this.props.clearAlert()
+    //     }
+    // }
+
     render() {
         const { user, submitted } = this.state;
         return (
             <div className="container">
                 <div className="jumbotron">
                     <div className="col-sm-8 col-sm-offset-2">
+                        {this.props.alertType &&
+                            <div className={`alert ${this.props.alertType}`}>{this.props.alertMessage}</div>
+                        }
                         <div className="col-md-6 col-md-offset-3">
                             <h2>Register</h2>
                             <form name="form" onSubmit={this.handleSubmit}>
@@ -73,11 +82,19 @@ class Register extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        alertType: state.common.type,
+        alertMessage: state.common.message
+    }
+  }
+
 const mapDispatchToProps = dispatch => {
     return {
-        registerUser: (user) => dispatch(registerUser(user))
+        registerUser: (user) => dispatch(registerUser(user)),
+        clearAlert: () => dispatch(clearAction())
     }
 }
   
-export default connect(null,mapDispatchToProps)(Register);
+export default connect(mapStateToProps,mapDispatchToProps)(Register);
   

@@ -121,6 +121,31 @@ const getTeamsAction = (data) =>{
     }
 }
 
+
+const successAction = (message) =>{
+    return{
+        type: actionTypes.SUCCESS ,
+        payload: {
+            message
+        }
+    }
+}
+
+const errorAction = (message) =>{
+    return{
+        type: actionTypes.ERROR ,
+        payload: {
+            message
+        }
+    }
+}
+
+export const clearAction = () =>{
+    return{
+        type: actionTypes.CLEAR 
+    }
+}
+
 export const getPocList = () => 
     async dispatch => {
       dispatch(pocLoadingAction())
@@ -155,13 +180,14 @@ export const loginUser = (user) =>
     async dispatch => {
         let url = baseUrl+"user/v1/authenticate/"
         const res = await axios.post(url,user)
+        console.log(res)
         if(res.data.status === "Success"){
             const user = res.data.data.user
             localStorage.setItem('user', JSON.stringify(user));
             dispatch(loginUserAction(user))
             history.push('/')  
         }else{       
-            // error handling
+            dispatch(errorAction(res.data.message));
         }
     }
 
@@ -175,13 +201,14 @@ export const registerUser = (user) =>
     async dispatch => {
         let url = baseUrl+"user/v1/register/"
         const res = await axios.post(url,user)  
+        console.log(res)
         if(res.data.status === "success"){
             //const user = res.data.data
             //localStorage.setItem('user', JSON.stringify(user));  
-            //dispatch(loginUserAction(user))
             history.push('/login')  
+            dispatch(successAction(res.data.message));
         }else{       
-            // error handling
+            dispatch(errorAction(res.data.message));
         }
     }
 
@@ -239,6 +266,6 @@ export const getTeams = () =>
 export const getPocLog = (pocId) => 
     async dispatch => {
         dispatch(pocLoadingAction())
-        //const res = await axios.get( baseUrl+"poc/v1/getPocTeam/"+pocId)
-        dispatch(getPocLogAction([]))
+        const res = await axios.get( baseUrl+"pocHistory/v1/getPocHistory/"+pocId)
+        dispatch(getPocLogAction(res.data))
     }

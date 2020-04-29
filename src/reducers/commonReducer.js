@@ -2,7 +2,9 @@ import * as actionTypes from '../actions/actions';
 
 const initialState = {
     roles: [],
-    teams: []
+    teams: [],
+    type: '',
+    message: ''
 };
 
 const commonReducer = (state = initialState, action) => {
@@ -16,6 +18,21 @@ const commonReducer = (state = initialState, action) => {
             return {
                 ...state,
                 teams: action.payload.data
+            };
+        case actionTypes.SUCCESS:
+            return {
+                type: 'alert-success',
+                message: action.payload.message
+            };
+        case actionTypes.ERROR:
+            return {
+                type: 'alert-danger',
+                message: action.payload.message
+            };
+        case actionTypes.CLEAR:
+            return {
+                type: '',
+                message: ''
             };
         default:
             return state;

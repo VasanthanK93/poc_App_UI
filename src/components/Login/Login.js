@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { loginUser, logoutUser } from '../../actions/index';
+import { loginUser, logoutUser, clearAction} from '../../actions/index';
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -30,12 +30,21 @@ class Login extends Component {
         }
     }
 
+    // componentDidUpdate(){
+    //     if(this.props.alertMessage.trim()){
+    //         this.props.clearAlert()
+    //     }
+    // }
+
     render() {
         const { userName, password, submitted } = this.state;
         return ( 
             <div className="container">
                 <div className="jumbotron">
                     <div className="col-sm-8 col-sm-offset-2">
+                        {this.props.alertType &&
+                            <div className={`alert ${this.props.alertType}`}>{this.props.alertMessage}</div>
+                        }
                         <div className="col-md-6 col-md-offset-3">
                             <h2>Login</h2>
                             <form name="form" onSubmit={this.handleSubmit}>
@@ -68,14 +77,17 @@ class Login extends Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.users.user
+        user: state.users.user,
+        alertType: state.common.type,
+        alertMessage: state.common.message
     }
   }
   
   const mapDispatchToProps = dispatch => {
     return {
         loginUser: (user) => dispatch(loginUser(user)),
-        logoutUser: (user) => dispatch(logoutUser(user))
+        logoutUser: (user) => dispatch(logoutUser(user)),
+        clearAlert: () => dispatch(clearAction())
     }
   }
   

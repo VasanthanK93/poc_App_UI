@@ -14,3 +14,7 @@ export const USER_LOADING = "USER_LOADING";
 
 export const GET_ROLES = "GET_ROLES";
 export const GET_TEAMS = "GET_TEAMS";
+
+export const SUCCESS = "SUCCESS";
+export const ERROR = "ERROR";
+export const CLEAR = "CLEAR";

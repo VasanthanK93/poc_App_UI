@@ -35,8 +35,8 @@ class Team extends Component {
                         <option value="T3">Team 3</option>
                         <option value="T4">Team 4</option>
                         <option value="T5">Team 5</option> */}
-                        { this.props.teamsList.map(team =>
-                                <option value={team.teamName}>{team.teamName}</option>
+                        { this.props.teamsList && this.props.teamsList.map(team =>
+                                <option key={team.teamId} value={team.teamName}>{team.teamName}</option>
                             )
                         }
                     </select>

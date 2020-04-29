@@ -9,27 +9,33 @@ class LogTable extends Component {
       super(props);
       this.state = {
         columns: [
-          { title: 'Changed Time', field: 'pocId'},
-          { title: 'Remarks', field: 'team'},
-          { title: 'POC Description',field: 'pocDesc'},
-          { title: 'Wiki Link', field: 'wikiLink' },
-          { title: 'Status', field: 'status' },
-          { title: 'Notes', field: 'notes' }
+          { title: 'Modified Date', field: 'modifiedDate',
+          render: rowData => {
+            const date = new Date(rowData.modifiedDate)
+            return date.toString()
+          }
+        },
+          { title: 'Remarks', field: 'remarks'},
+          { title: 'Status', field: 'status' }
         ],
         data: [],
-        loading: false
+        loading: false,
       }
     }
 
   componentDidMount(){
-    this.props.getPocLog();
+    this.props.getPocLog(this.props.pocId);
   }
 
   static getDerivedStateFromProps(nextProps){
-    return { 
-      data: nextProps.usersList ,
-      loading: nextProps.loading
-    }
+    if(nextProps.pocLog.length && nextProps.pocLog[0].pocId === nextProps.pocId ){
+        return { 
+            data: nextProps.pocLog ,
+            loading: nextProps.loading
+          }
+    }else{
+        return null
+    }  
   }
 
   render(){

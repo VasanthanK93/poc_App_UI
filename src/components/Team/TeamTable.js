@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import MaterialTable from 'material-table';
 import { connect } from 'react-redux';
-import { addPoc, editPoc, getPocList} from '../../actions/index';
+import { addPoc, editPoc, getPocList } from '../../actions/index';
 import TextField from '@material-ui/core/TextField';
 import LogTable from '../Log/LogTable';
 import Button from '@material-ui/core/Button';
@@ -132,7 +132,7 @@ class TeamTable extends Component {
               tooltip: 'Show History',
               render: rowData => {
                 return (
-                  <LogTable key={rowData.pocId} pocid={rowData.pocId}/>
+                  <LogTable key={rowData.pocId} pocId={rowData.pocId}/>
                 )
               },
             },
@@ -149,7 +149,8 @@ const mapStateToProps = state => {
       pocList: state.pocs.pocList,
       team: state.pocs.team,
       loading: state.pocs.loading,
-      user: state.users.user
+      user: state.users.user,
+      pocLog: state.pocs.pocLog,
   }
 }
 
@@ -157,7 +158,7 @@ const mapDispatchToProps = dispatch => {
   return {
       addPoc: (poc) => dispatch(addPoc(poc)),
       editPoc: (newData,oldData) => dispatch(editPoc(newData,oldData)),
-      getPocList: () => dispatch(getPocList())
+      getPocList: () => dispatch(getPocList()),
   }
 }
 
