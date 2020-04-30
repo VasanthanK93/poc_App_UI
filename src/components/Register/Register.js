@@ -2,6 +2,7 @@ import React, { Component} from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser, clearAction } from '../../actions/index';
+import { history } from '../../helpers/history';
 
 class Register extends Component {
     constructor(props) {
@@ -37,11 +38,11 @@ class Register extends Component {
         }
     }
 
-    // componentDidUpdate(){
-    //     if(this.props.alertMessage.trim()){
-    //         this.props.clearAlert()
-    //     }
-    // }
+    componentDidUpdate(){
+        history.listen((location, action) => {
+            this.props.clearAlerts();
+        });
+    }
 
     render() {
         const { user, submitted } = this.state;
@@ -92,7 +93,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         registerUser: (user) => dispatch(registerUser(user)),
-        clearAlert: () => dispatch(clearAction())
+        clearAlerts: () => dispatch(clearAction())
     }
 }
   

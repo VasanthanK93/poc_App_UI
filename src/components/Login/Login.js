@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginUser, logoutUser, clearAction} from '../../actions/index';
+import { history } from '../../helpers/history';
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -30,11 +31,11 @@ class Login extends Component {
         }
     }
 
-    // componentDidUpdate(){
-    //     if(this.props.alertMessage.trim()){
-    //         this.props.clearAlert()
-    //     }
-    // }
+    componentDidUpdate(){
+        history.listen((location, action) => {
+            this.props.clearAlerts();
+        });
+    }
 
     render() {
         const { userName, password, submitted } = this.state;
@@ -87,7 +88,7 @@ const mapStateToProps = state => {
     return {
         loginUser: (user) => dispatch(loginUser(user)),
         logoutUser: (user) => dispatch(logoutUser(user)),
-        clearAlert: () => dispatch(clearAction())
+        clearAlerts: () => dispatch(clearAction())
     }
   }
   
