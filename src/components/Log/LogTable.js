@@ -9,12 +9,14 @@ class LogTable extends Component {
       super(props);
       this.state = {
         columns: [
-          { title: 'Modified Date', field: 'modifiedDate',
-          render: rowData => {
-            const date = new Date(rowData.modifiedDate)
-            return date.toString()
-          }
-        },
+          { title: 'Modified Date',
+            field: 'modifiedDate',
+            defaultSort: 'desc',
+            render: rowData => {
+              const date = new Date(rowData.modifiedDate)
+              return date.toString()
+            }
+          },
           { title: 'Remarks', field: 'remarks'},
           { title: 'Status', field: 'status' }
         ],

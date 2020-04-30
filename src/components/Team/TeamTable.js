@@ -149,7 +149,7 @@ const mapStateToProps = state => {
       pocList: state.pocs.pocList,
       team: state.pocs.team,
       loading: state.pocs.loading,
-      user: state.users.user,
+      user: state.users.user.user,
       pocLog: state.pocs.pocLog,
   }
 }

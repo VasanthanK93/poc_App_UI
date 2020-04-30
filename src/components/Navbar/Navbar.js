@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { getProfile } from '../../actions/index';
 class Navbar extends Component {
-    componentDidMount(){
-        this.props.getProfile()
-    }
+    
+
     render(){
         return (
             <nav className="navBar">
@@ -29,14 +27,8 @@ class Navbar extends Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.users.user
+        user: state.users.user.user
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getProfile: () => dispatch(getProfile())
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps)(Navbar);
