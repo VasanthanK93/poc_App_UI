@@ -212,6 +212,17 @@ export const registerUser = (user) =>
         }
     }
 
+export const resetPassword = (user) => 
+    async dispatch => {
+        let url = baseUrl+"auth/v1/resetPwd/"+user.userName
+        const res = await axios.put(url,{'password': user.newPassword})
+        if(res.data.Status === "Error"){     
+            dispatch(errorAction(res.data.message));
+        }else{       
+            dispatch(successAction("Password Reset Successfully"));
+        }
+    }
+
 export const getUsersList = () => 
     async dispatch => {
         dispatch(userLoadingAction())

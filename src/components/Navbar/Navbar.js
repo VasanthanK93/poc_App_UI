@@ -12,8 +12,9 @@ class Navbar extends Component {
                    <p className=" pull-right"> Hi    {this.props.user.userName} </p>}
                 </h4>
                 {this.props.user && this.props.user.userName && 
-                    <ul> 
+                    <ul>   
                         <li><NavLink to="/login">Logout</NavLink></li>
+                        <li><NavLink to="/reset">Reset Password</NavLink></li>
                         { this.props.user.role === "admin" &&
                         <li><NavLink to="/users">Users</NavLink></li>
                         }
