@@ -33,7 +33,7 @@ class TeamTable extends Component {
           field: 'status',
           lookup: { 'New Idea': 'New Idea', 'Shortlisted': 'Shortlisted', 'InProgress': 'In Progress', 'Blocked': 'Blocked', 'Completed': 'Completed', 'Demo Shown to Customer': 'Demo Shown to Customer' },
         },
-        { title: 'Notes', field: 'notes' }
+        { title: 'Notes', field: 'remarks' }
       ],
       data: [],
       loading: false,
