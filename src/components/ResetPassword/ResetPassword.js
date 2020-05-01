@@ -8,7 +8,7 @@ class ResetPassword extends Component {
         super(props);
 
         this.state = {
-            userName: '',
+            userName: this.props.user.role !== 'admin' ? this.props.user.userName : '' ,
             newPassword:'',
             submitted: false
         };
@@ -48,7 +48,7 @@ class ResetPassword extends Component {
                             <form name="form" onSubmit={this.handleSubmit}>
                                 <div className={'form-group' + (submitted && !userName ? ' has-error' : '')}>
                                     <label htmlFor="userName">Username</label>
-                                    <input type="text" className="form-control" name="userName" value={userName} onChange={this.handleChange} />
+                                    <input type="text" className="form-control" name="userName" value={userName} onChange={this.handleChange} disabled={this.props.user.role !== 'admin'}/>
                                     {submitted && !userName &&
                                         <div className="help-block">Username is required</div>
                                     }

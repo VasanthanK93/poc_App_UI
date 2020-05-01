@@ -240,17 +240,16 @@ export const editUser = (newData,oldData) =>
         dispatch(editUserAction(res.data,oldData)) 
     }
 
-// export const getProfile = () => 
-//     async dispatch => {
-//         let user =JSON.parse(localStorage.getItem('user'))
-//         console.log(user)
-//         if(user && user.user){
-//             dispatch(loginUserAction(user.user))   
-//         }else{       
-//             localStorage.removeItem('user')
-//             history.push('/')  
-//         }
-//     }
+export const getProfile = () => 
+    async dispatch => {
+        let user =JSON.parse(sessionStorage.getItem('user'))
+        if(user){
+            dispatch(loginUserAction(user)) 
+        }else{     
+            sessionStorage.removeItem('user')
+            history.push('/')  
+        }
+    }
 
 export const deleteUser = (oldData) => 
     async dispatch => {
